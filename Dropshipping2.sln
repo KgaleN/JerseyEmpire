@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropshipping2", "Dropshipping2\Dropshipping2.csproj", "{68D450FB-A14A-4995-8B8E-3B308F7F1776}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68D450FB-A14A-4995-8B8E-3B308F7F1776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68D450FB-A14A-4995-8B8E-3B308F7F1776}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68D450FB-A14A-4995-8B8E-3B308F7F1776}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68D450FB-A14A-4995-8B8E-3B308F7F1776}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5B3A0119-F0DC-46E3-92E1-B5F405C7485A}
+	EndGlobalSection
+EndGlobal

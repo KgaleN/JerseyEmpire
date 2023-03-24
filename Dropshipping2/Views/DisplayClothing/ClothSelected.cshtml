@@ -1,0 +1,503 @@
+﻿
+@model IEnumerable<Database_Methods.Models.Clothing>
+@using Dropshipping2.Controllers;
+
+
+
+@{
+    ViewData["Title"] = "";
+}
+
+<h1></h1>
+
+<style>
+    
+    .list-group-horizontal .list-group-item {
+  display: inline-block; 
+}
+.list-group-horizontal .list-group-item:focus {
+  background-color: #41AADA !important; 
+  color: #fff;
+  display: inline-block;
+}
+.list-group-horizontal .list-group-item {
+  margin-bottom: 0;
+  margin-left:-4px;
+  margin-right: 0;
+}
+.list-group-horizontal .list-group-item:first-child {
+  border-top-right-radius:0;
+  border-bottom-left-radius:4px;  
+}
+.list-group-horizontal .list-group-item:last-child {
+  border-top-right-radius:4px;
+  border-bottom-left-radius:0;   
+}
+.form-check label {
+  padding:.75rem 1.25rem;
+  margin-bottom:0;
+}
+.form-check label input[type="checkbox"] {
+  opacity:0;
+}
+
+    span {
+        cursor: pointer;    
+    }
+
+    .number {
+        margin: 100px;      
+    }
+
+    .minus, .plus {
+        width: 20px;
+        height: 20px;
+       
+        border-radius: 4px;
+        
+        display: inline-block;        
+    }
+
+    .quntity {
+        height: 34px;
+        width: 100px;
+        text-align: center;
+        font-size: 26px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .box {
+        text-align: center;
+    }
+
+    .button {
+        font-size: 1em;
+        padding: 15px 35px;
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+        background: #403e3d;
+        border-radius: 50px;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(17, 17, 17,0.7);
+        transition: opacity 500ms;
+        pointer-events: none;
+        opacity: 0;
+        visibility:hidden
+    }
+
+        .overlay:target {
+            pointer-events: all;
+            opacity: 1;
+            visibility:visible;
+        }
+
+
+    .newoverlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(17, 17, 17,0.7);
+        opacity: 1;
+        pointer-events: all;
+        visibility: visible;
+    }
+
+        .newoverlay:target {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+    .wrapper {
+        margin: 70px auto;
+        padding: 20px;
+        background: #e7e7e7;
+        border-radius: 5px;
+        width: 50%;
+        height:70%;
+        position: relative;
+        transition: all 5s ease-in-out
+    }
+
+        .wrapper h2 
+        {
+            margin-top: 0;
+            color: #333;
+            font-size:larger;
+            font-family:Impact;
+            position:absolute;
+            left: 37%;
+        }
+
+        .wrapper .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .wrapper .content 
+        {
+            /*position:absolute;
+          */ 
+        }
+</style>
+
+<!-- include the CSS files -->
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">*@
+
+<!-- include the JavaScript files -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+			$('.minus').click(function () {
+				var $input = $(this).parent().find('input');
+				var count = parseInt($input.val()) - 1;
+				count = count < 1 ? 1 : count;
+				$input.val(count);
+				$input.change();
+				return false;
+			});
+			$('.plus').click(function () {
+				var $input = $(this).parent().find('input');
+				$input.val(parseInt($input.val()) + 1);
+				$input.change();
+				return false;
+			});
+		});
+
+
+   
+</script>
+<input style="visibility:hidden" id="LoginError" value="@ViewBag.WrongPassword">
+<input style="visibility:hidden" id="SignupError" value="@ViewBag.ErrorEmail">
+
+
+<div>
+    <body style="background:#e7e7e7" onload="errorFunction();EnableDisableCart();">
+        
+        @foreach (var item in Model)
+        {
+            <img src="@Url.Content(item.ClothingPic)" alt="@item.Title" style="width:13cm; height:15cm; border-radius:25px;" class="img-fluid" >
+
+            <form asp-action="LogUserInfo">
+            <div style="width:15cm; height:3cm; position: relative; bottom: 15cm; left: 15cm; font-size:x-large; font-weight:500;padding:10px">
+                @Html.DisplayFor(modelItem => item.Title)
+                <br>
+                <a style="font-size:x-large; font-weight:300">
+                @ViewBag.Currency @Html.DisplayFor(modelItem => item.ClothingPrice)
+                </a>
+                <br>
+                <br>             
+                <a style="font-size:20px; font-weight:500; left: 16cm;">
+                     Size:
+                </a>
+                    <div class="btn-group" data-toggle="buttons" onchange="EnableDisableCart()">
+                        @foreach (var clothSize in Database_Methods.Add_To_Database.ClothingSizesList)
+                        {
+                            <label id="ned" class="btn btn-primary" onchange="EnableDisableCart()">
+                                <input id="SizeClothing" type="radio" name="clothingSize" value="@clothSize.SizeId" style="visibility:visible" onchange="EnableDisableCart()">@clothSize.ClothingSizes
+                            </label>                       
+                        }
+                    </div>             
+                <br>
+                <br>
+                 <a style="font-size:20px; font-weight:500; left: 16cm;">
+                    Quantity:                    
+                </a>
+             @*https://codepen.io/Tanya_Rybachuk/pen/jyxzEp*@
+                <div class="number" style="margin-bottom:0; margin-top:0; margin-left:-4px; margin-right: 0;">
+                    <span class="minus">-</span>
+                    <input id="quant" class="quntity" type="number" value="1" name="clothingQuantity"/>
+                    <span class="plus">+</span>
+                </div>
+                 <br>
+                 <br>
+                 <br>
+                    @if (DisplayClothingController.isUserLoggedIn == true)
+                    {
+                        <div class="box">
+                            <input id="cartButton" value="Add To Cart" type="submit" class="button" onclick="myFunction(ned)" style="pointer-events:none">
+                        </div>                       
+                    }
+                    @if (DisplayClothingController.isUserLoggedIn == false) 
+                    {
+                        <div class="box">
+                            <a href="#wrapper1" id="cartButton" class="button" onclick="myFunction(ned)" style="pointer-events:none">Add To Cart</a>
+                        </div> 
+                    }
+
+                    <div class="overlay" id="wrapper1">
+                            <div class="wrapper">
+                                <h2>JERSEY ESTATE</h2>
+                                <h7 style="position:absolute; left:20%; top:25%; font-size:large">
+                                    Login
+                                    @if (ViewBag.WrongPassword != null)
+                                    {
+                                        <br>
+                                        <label class="text-danger" style="font-size:medium; font-weight:400">
+                                            @ViewBag.WrongPassword
+                                        </label>
+                                        <br>
+                                    }
+                                </h7>
+                                <a id="x" href="#" class="close">&times; </a>
+                                <div class="content">
+                                    <div class="container">
+                                        <input style="border-radius:10px; position:absolute; left:20%; top:37%; width:60%" id="UserEmail" type="email" name="email" placeholder="Email" onkeyup="EnableDisableLogin(this,UserPassword)">
+                                        <br>
+                                        <br>
+                                        <input style="border-radius:10px; position:absolute; left:20%; top:52%; width:60%" id="UserPassword" type="password" name="password" placeholder="Password" onkeyup="EnableDisableLogin(this,UserEmail)">
+                                        <input type="number" name="clothingId" value="@item.ClothingId" style="visibility:hidden">
+                                        <div style="position:absolute; left:35%; top:63%" class="form-group">
+                                        <input style="width:5cm" id="btnSubmit" name="loginTell" type="submit" value="login" class="btn btn-primary" disabled="disabled" onclick="deleteSignupInput()" />
+                                            <br>
+                                            <br>
+                                        <a onclick="deleteLoginInput()" type="button" href="#wrapper2" id="Signup" style="font-weight:400; font-size:medium; position:absolute; left:42%;">Sigup</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                           
+                        </div>
+                  
+                        <div class="overlay" id="wrapper2">
+                        <div class="wrapper">
+                            <h2>JERSEY ESTATE</h2>
+                             <h7 style="position:absolute; left:6%; top:22%; font-size:large">
+                                Sign up
+                                @if (ViewBag.ErrorEmail != null)
+                                {
+                                    <label class="text-danger" style="font-size:medium; font-weight:400">
+                                        @ViewBag.ErrorEmail
+                                    </label>
+                                }
+                            </h7>
+                            <a id="p" href="#" class="close">&times;</a>
+                            <div class="content">
+                                <div class="container" style="padding:10px;display:inline-block; position:absolute; top:30%;">
+
+                                    <input style="border-radius:10px"   id="Name" type="text" name="firstName" placeholder="First Name" onkeyup="EnableDisableSignup(this,Surname,Phone,NewUserEmail,NewUserPassword)">                           
+                                    <input style="border-radius:10px" id="Surname" type="text" name="surname" placeholder="Surname" onkeyup="EnableDisableSignup(Name,this,Phone,NewUserEmail,NewUserPassword)">
+                                    <br>
+                                    <br>
+                                    <input style="border-radius:10px" id="Phone" type="tel" name="phone" placeholder="Phone" onkeyup="EnableDisableSignup(Name,Surname,this,NewUserEmail,NewUserPassword)">                       
+                                    <input style="border-radius:10px" id="NewUserEmail" type="email" name="newEmail" placeholder="Email" onkeyup="EnableDisableSignup(Name,Surname,Phone,this,NewUserPassword)">
+                                    <br>
+                                    <br>
+                                    <input style="border-radius:10px" id="NewUserPassword" type="password" name="newPassword" placeholder="Password" onkeyup="EnableDisableSignup(Name,Surname,Phone,NewUserEmail,this)">
+                                    <input type="number" name="clothingId" value="@item.ClothingId" style="visibility:hidden">                               
+                                    <div class="form-group">
+                                        <br>
+                                        <input id="ButtomSubmit" name="SignupTell" type="submit" value="Sign up" class="btn btn-primary" disabled="disabled" onclick="deleteLoginInput()" />
+                                    </div>
+                                    <a onclick="deleteSignupInput()" href="#wrapper1" id="BackTologin" style="font-weight:400; font-size:medium; position:absolute; left:42%;">Login</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                   
+            </div>
+                
+               
+
+            </form> 
+
+
+         
+                        
+                             
+        }
+
+
+       
+    </body>
+ 
+  
+</div>
+<script type="text/javascript">
+
+    //https://www.aspsnippets.com/Articles/JavaScript-Enable-Button-when-text-is-entered-in-TextBox.aspx#:~:text=JavaScript%20function%20to%20enable%20Button%20when%20text%20is,is%20empty%2C%20the%20Button%20is%20disabled%20using%20JavaScript.
+    function EnableDisableCart() {
+        //Reference the Button.
+        var btncart = document.getElementById("cartButton");
+        var RadioCheck = document.querySelector('input[name="clothingSize"]:checked');
+        //Verify the TextBox value.
+        if (RadioCheck.checked = true) 
+        { 
+            btncart.style.pointerEvents = "visible";
+            test.style.visibility = "hidden";
+        }
+
+       else
+        { 
+            btncart.style.pointerEvents = "none";
+            test.style.visibility="hidden";
+        }
+            //Enable the TextBox when TextBox has value.
+          
+       
+    };
+</script>
+
+<script type="text/javascript">
+
+    //https://www.aspsnippets.com/Articles/JavaScript-Enable-Button-when-text-is-entered-in-TextBox.aspx#:~:text=JavaScript%20function%20to%20enable%20Button%20when%20text%20is,is%20empty%2C%20the%20Button%20is%20disabled%20using%20JavaScript.
+    function EnableDisableLogin(UserEmail, UserPassword) {
+        //Reference the Button.
+        var btnSubmit = document.getElementById("btnSubmit");
+
+        //Verify the TextBox value.
+        if (UserPassword.value.trim() != "" && UserEmail.value.trim() != "") {
+            //Enable the TextBox when TextBox has value.
+            btnSubmit.disabled = false;
+        } else {
+            //Disable the TextBox when TextBox is empty.
+            btnSubmit.disabled = true;
+        }
+    };
+
+    function EnableDisableSignup(Name,Surname,Phone,NewUserEmail, NewUserPassword) {
+        //Reference the Button.
+        var btnSubmit = document.getElementById("ButtomSubmit");
+      
+        //Verify the TextBox value.
+        if (Name.value.trim() != "" && Surname.value.trim() != "" && Phone.value.trim() != "" && NewUserPassword.value.trim() != "" && NewUserEmail.value.trim() != "") {
+            //Enable the TextBox when TextBox has value.
+            btnSubmit.disabled = false;
+        } else {
+            //Disable the TextBox when TextBox is empty.
+            btnSubmit.disabled = true;
+        }
+    };
+</script>
+
+<script>
+
+    //https://stackoverflow.com/questions/38990163/how-can-i-add-and-remove-an-active-class-to-an-element-in-pure-javascript
+    function myFunction(e) 
+    {
+        var elems = document.querySelectorAll(".active");
+        [].forEach.call(elems, function (el) {
+            el.classList.remove("active");
+        });
+        e.target.className = "active";
+    }
+
+    function deleteSignupInput()
+    {
+        var nameInput = document.getElementById('Name');
+        var surnameInput = document.getElementById('Surname');
+        var phoneInput = document.getElementById('Phone');
+        var emailInput = document.getElementById('NewUserEmail');
+        var passwordInput = document.getElementById('NewUserPassword');
+
+        nameInput.value = '';
+        surnameInput.value = '';
+        phoneInput.value = '';
+        emailInput.value = '';
+        passwordInput.value = ''; 
+    }
+
+    function deleteLoginInput()
+    {
+        var emailInput = document.getElementById('UserEmail');
+        var passwordInput = document.getElementById('UserPassword');
+        emailInput.value = '';
+        passwordInput.value = ''; 
+    }
+    
+
+</script>
+
+<script>
+
+    
+    function errorFunction() 
+    {
+        
+      
+        var loginValue = document.getElementById("LoginError").value;
+
+        //if (loginValue != "") 
+        //{
+        //    document.getElementById("cartButton").href = "#wrapper";
+        //    document.getElementById("x").href = "#wrapper1";
+        //    document.getElementById('wrapper1').className = 'newoverlay';
+        //    document.getElementById("BackTologin").href = "#wrapper";
+
+        //    var $213 = @ViewBag.ErrorSizes;
+        //    $("input[name=clothingSize][value="+$213+"]").attr('checked', true);
+        //    $("input[name=clothingQuantity]").attr('value', @ViewBag.ErrorQuantity);           
+        //}
+
+        if (loginValue != "")
+        {      
+            //document.getElementById('wrapper1').className = 'newoverlay';
+            //document.getElementById("cartButton").href = "#wrapper";
+            //document.getElementById("x").href = "#wrapper1";
+            //document.getElementById("BackTologin").href = "#wrapper";
+            //document.getElementById("p").href = "#wrapper1";
+
+            var btn = document.getElementById("cartButton");
+            btn.click();
+
+            var $213 = @ViewBag.ErrorSizes;
+            $("input[name=clothingSize][value="+$213+"]").attr('checked', true);
+            $("input[name=clothingQuantity]").attr('value', @ViewBag.ErrorQuantity);
+        }
+
+
+
+
+ 
+        var signupValue = document.getElementById("SignupError").value;
+      
+        if (signupValue != "")
+        {   
+            //document.getElementById('wrapper1').className = 'newoverlay';
+            ////document.getElementById("cartButton").href = "#wrapper";
+            ////document.getElementById("x").href = "#";
+            ////document.getElementById("BackTologin").href = "#wrapper1";
+
+            //document.getElementById("Signup").href = "#wrapper";
+            //document.getElementById("p").href = "#";
+            //document.getElementById('wrapper2').className = 'newoverlay';
+            //document.getElementById("BackTologin").href = "#wrapper2";
+
+            var btn = document.getElementById("Signup");
+            btn.click();          
+            var $213 = @ViewBag.ErrorSizes;
+            $("input[name=clothingSize][value="+$213+"]").attr('checked', true);
+            $("input[name=clothingQuantity]").attr('value', @ViewBag.ErrorQuantity);
+        }
+        
+    
+        
+    }
+
+    
+
+</script>
+
+

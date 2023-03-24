@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Dropshipping2</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Dropshipping2.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid;" style="display:inline-block">
+                <a style="font-family:Impact; font-size:xx-large;visibility:hidden">JER</a>
+                
+               
+                  @using (Html.BeginForm("SearchFilter", "DisplayClothing", FormMethod.Post, new { @class = "ui large form" }))
+                {
+                    <button class="headerbtn" type="submit">JERSEY ESTATE</button>
+                    <a style="font-family:Impact; font-size:xx-large;visibility:hidden">JERSEY ESTATE</a>
+                
+
+                    <div class="btn-group" data-toggle="buttons" style=" position:absolute ; left:23%;">
+                 
+
+                        <button id="ned" name="SearchWord" class="border-right" type="submit" value="Basketball">
+                            NBA
+                        </button>
+                        <button id="ned" name="SearchWord" type="submit" class="border-right" value="American Football">
+                        NFL
+                        </button>
+                        <button id="ned" name="SearchWord" type="submit" class="border-right" value="Football">
+                        Football
+                        </button>
+
+                        <button id="ned" name="SearchWord" type="submit" class="border-right" value="Football">
+                        Laliga
+                        </button>
+
+                       <button id="ned" name="SearchWord" type="submit" class="border-right" value="Football">
+                        Premier League
+                       </button>
+
+                        <button id="ned" name="SearchWord" type="submit" class="border-right" value="Football">
+                        Serie A
+                        </button>
+                    </div>
+                    
+                       <a style=" position:absolute ; left:73%;">
+        <input type="text" placeholder="Search..." name="SearchWord" style="border-radius:10px; width:5cm; height:1cm">
+        <button type="submit" style="border-radius:10px; width:2cm; height:1cm">Search</button>
+    </a>
+                }     
+                
+            
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - Dropshipping2 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
+<style>
+    .border-right {
+  border-right: 1px solid #e7e7e7;
+  border-left: 1px solid white;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  background-color: white;
+  color:#000;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size:large;
+  
+}
+
+    .headerbtn {
+        border-right: 1px solid white;
+        border-left: 1px solid white;
+        border-top: 1px solid white;
+        border-bottom: 1px solid white;
+        background-color: white;
+        color: #000;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: Impact;
+        font-size: xx-large;
+    }
+
+</style>

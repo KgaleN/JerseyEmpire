@@ -1,0 +1,107 @@
+﻿ @model IEnumerable<Database_Methods.ViewModel.CartModel>
+@using Database_Methods.Models
+
+@{
+    ViewData["Title"] = "ClothesDisplayed";
+}
+
+<h1>Shopping Cart</h1>
+
+<body style="background:#e7e7e7">
+    <form asp-action="InuputAddress">
+
+        
+@foreach(var item in Model)
+    {
+      <div class="overlay" id="livOne">
+                <fieldset  class="wrapper">                  
+                <img src="@Url.Content(item.Image)" alt="@item.Title" style="width:5cm; height:6cm; margin:10px" class="img-fluid">           
+            <div style="width:15cm; height:3cm; position: relative; bottom: 6.5cm; left: 6cm; font-size:x-large; font-weight:500;padding:10px">
+                @Html.DisplayFor(modelItem => item.Title)
+                <br>
+                <br>  
+                <p style="font-size:large; font-weight:500">
+                    Size: @Html.DisplayFor(modelItem => item.ClothSize)
+                    <br>
+                    Quantity: @Html.DisplayFor(modelItem => item.Quantity) 
+                    <br>
+                    <br>
+                    <button style="background-color:#403e3d;border-radius: 50px;border:thin">@Html.ActionLink("Remove","Delete",new{i = item.Title}, new{@style="color:white;text-decoration: none" })</button>
+                    </p>                             
+            </div>
+            
+            <a style="font-size:x-large; font-weight:300;position:absolute; bottom:1cm; right:1cm">
+                R @Html.DisplayFor(modelItem => item.Price)
+            </a>
+                    @if (item.Quantity > 1) 
+                    {
+                        
+                        <a style="font-size:medium; font-weight:400;position:absolute; bottom:10px; right:1cm">
+                        R @(Decimal.Round(item.Price/item.Quantity,2)) each
+                      </a> 
+                    }
+                   
+            <br>
+                  
+                </fieldset>
+            <br>
+            <br>
+      </div>
+    }
+        <fieldset style="position:absolute; left:75%; top:5cm; display:inline-block;  background-color: gray; border-radius: 15px; width: 7cm;  padding: 10px" class="rapper">
+            Order details
+            <hr/>
+            @foreach (var item in Model)
+            {
+                @Html.DisplayFor(modelItem => item.Title);
+                <p>R @Html.DisplayFor(modelItem => item.Price)</p>
+                <hr/>
+            }
+            <p style="font-weight:500">Total Cost:  R @ViewBag.TotalCost</p>
+            <br />
+            <input id="btnSubmit" type="submit" value="Checkout" class="btn btn-primary" />
+        </fieldset>
+     </form>
+
+    <form asp-action="ReturnToShopping">
+        <div class="form-group">
+            <input id="btnSubmit" type="submit" value="return shopping" class="btn btn-primary" />
+        </div>
+    </form>
+</body>
+
+<style>
+    .wrapper
+    {
+        background-color: gray;
+        border-radius: 15px;
+        height: 8cm;
+        width: 21cm;
+        position: relative;
+        padding: 10px
+    
+    }
+
+    
+   /* .wrapper .close 
+    {
+        position: absolute;
+        top: -5px;
+        right: 20px;
+        transition: all 200ms;
+        font-size: 30px;
+        font-weight: bold;
+        text-decoration: none;
+        color: azure;
+    }*/
+
+
+</style>
+
+<script>
+   
+    <add key="UnobtrusiveJavaScriptEnabled" value = "true" />
+
+</script>
+
+              

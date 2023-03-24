@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Database_Methods.Models.Clothing>
+@using Dropshipping2.Controllers
+
+@{
+    ViewData["Title"] = "ClothesDisplayed";
+}
+
+@*<h1 style="position:fixed ;left:1px">Sports Wear</h1>*@
+
+
+
+
+<body style="background:#e7e7e7; text-align:center">
+    <br/>
+    <br />
+    @foreach (var item in Model)
+    {
+        <form asp-action="ClothesSelected" style="padding:10px;display:inline-block;">
+            
+                <button class=”button” style="background-color:white; border-radius:25px; height:9cm; width:8cm; text-align:center">
+                    <img src="@Url.Content(item.ClothingPic)" alt="@item.Title" style="width:5cm;height:6cm" class="img-fluid">
+                <p style=" position: relative; width:6cm; height:2cm; left:13%; font-size:small">
+                    @Html.DisplayFor(modelItem => item.Title)             
+                <p style="font-size:20px; font-weight:600; position:relative; bottom:8%"> @ViewBag.Currency @Html.DisplayFor(modelItem => item.ClothingPrice)</p>
+               
+                    <input type="number" name="ClothingId" value="@item.ClothingId" style="visibility:hidden"/>
+                </button>              
+                
+        </form>    
+    }
+   
+
+    
+</body>
+
+  
+    
+   
+        
+
+   
+
